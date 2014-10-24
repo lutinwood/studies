@@ -1,0 +1,10 @@
+<h2> Filières</h2>
+<% form_for @study, url{action: "create"} do |f| %>
+	<%= f.label :ldap_id %>:
+	<%= f.text_field :ldap_id %><br />
+
+	<%= f.label :group_name %>:
+	<%= f.text_field :group_name %><br />
+
+	<%= f.submit %>
+<% end %>

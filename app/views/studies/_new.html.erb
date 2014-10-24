@@ -1,0 +1,18 @@
+
+<h2> Filières</h2>
+<table>
+<% form_for @study do |f| %>
+<tr><td>  <%= f.label :ldap_id %>:
+</td><td>
+  <%= f.text_field :ldap_id %>
+</td></tr>
+<tr><td>
+<%= f.label :group_name %>:
+</td><td>
+  <%= f.text_field :group_name%>
+</td></tr>
+<tr><td>
+  <%= f.submit "create"%><%= f.submit "refresh"%>
+</td></tr>
+<% end %>
+</table>

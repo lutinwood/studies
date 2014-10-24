@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  ldap_id: MyString
+  group_name: MyString
+two:
+  id: 2
+  ldap_id: MyString
+  group_name: MyString

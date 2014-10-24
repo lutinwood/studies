@@ -1,0 +1,29 @@
+<h2>Show user LDAP</h2>
+<% if @result.any? %>
+<table class="list">
+    <thead><tr>
+  <th><%='uid'%></th>
+  <th><%='displayname'%></th>
+  <th><%='mail'%></th>
+  <th><%='auaetapemillesime'%></th>
+  </tr></thead>
+  <tfoot><tr><td><%= @result.size %></td></tr></tfoot>
+  <tbody>
+    <% @result.each do |student| %>
+    <%= logger.info "#{student["aua"]}" %>
+
+      <tr class="<%= cycle 'odd', 'even' %>">
+            <td align="center"><%= student["uid"]%></td>
+            <td align="center"><%= student["displayname"] %></td>
+            <td align="center"><%= student["mail"] %></td>
+            <td align="center"><%= student["auaetapemillesime"] %></td>
+    </tr>
+      <%end%>
+    </tbody>
+    </table>
+    <%else%>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<%= puts "Nombre d'étudiants #{@result.size}" %>
+  <% logger.info " Result #{@result.size}" %>
