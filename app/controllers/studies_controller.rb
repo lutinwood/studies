@@ -5,6 +5,10 @@ class StudiesController < ApplicationController
   layout 'admin'
   before_filter :require_admin
 
+  def new
+    @study = Study.new
+  end
+
   def create
     @study = Study.new
       study = params[:study]
@@ -27,9 +31,12 @@ class StudiesController < ApplicationController
   def show
     @studies = Study.find(:all)
   end
+
   def index
       show
-      create
+      new
+
+
   end
 
   def destroy

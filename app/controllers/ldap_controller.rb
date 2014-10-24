@@ -3,7 +3,10 @@ require 'rubygems'
 require 'net/ldap'
 class LdapController < ApplicationController
 unloadable
+   layout 'admin'
+   before_filter :require_admin
 
+   verify :method => :post, :only => [:show]
   def bind
    ldap = Net::LDAP::new
    ldap.host = 'castor.info-ua'
@@ -28,7 +31,6 @@ unloadable
   end
 
   def search(id)
-
     result = Set.new
     ldap = self.setup(id)
     logger.info "Ldap #{ldap.inspect}"
@@ -47,11 +49,13 @@ unloadable
   end
 
   def show
+      group_name = Study.find(:all,:conditions=>["ldap_id = ?", params[:ldap_id]]).first.group_name
+      @caption = group_name
+      logger.info " CAPTION #{@caption.inspect}"
       @result = search(params[:ldap_id])
-
   end
 
-  def create_group(greoup_name)
+  def create_group(group_name)
     @group = Group.new
     @group.lastname = group_name
     @group.save
@@ -61,12 +65,6 @@ unloadable
 
   def add_user
     @result = search(params[:ldap_id])
-    check_group = Group.find(:all,:conditions => ["lastname = ?", params[:group_name]])
-    if check_group
-      @group = check_group
-    else
-      @group = create_group(params[:group_name])
-    end
 
     @result.each do |student|
       if User.find_by_login(student["uid"])
@@ -91,8 +89,18 @@ unloadable
 
             if user.valid?
                 user.save
+                #get the group
+                group_name = Study.find(:all, :conditions => ["ldap_id = ?", params[:ldap_id]]).first.group_name
+                check_group = Group.find(:all,:conditions => ["lastname = ?", group_name])
+                logger.info "checkgroup #{check_group}"
+                if check_group
+                  @group = check_group
+                else
+                  logger.info "group not found"
+                  @group = create_group(params[:group_name])
+                end
                 logger.info " USER #{user.id} #{user.login} "
-                logger.info " GRoup #{@group[0].id}"
+                logger.info " GRoup  sd #{@group[0].id}"
                 @groups = Group.find_by_id(@group[0].id)
                 @groups.users << user
 

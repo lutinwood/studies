@@ -7,7 +7,7 @@
      <td><%= study[:ldap_id] %></td>
      <td><%= study[:group_name] %><td>
      <td><%= link_to "delete", study, :method => :delete%></td>
-     <td><%= search_user_link(study[:ldap_id])%></td>
+     <td><%= search_user_link(study)%></td>
      <td><%= add_user_link(study[:ldap_id])%></td>
   </tr>
 <%end%>
