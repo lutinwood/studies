@@ -1,0 +1,20 @@
+
+<% if defined? @studies %>
+<table>
+  <tbody>
+  <tr><th>ID</th><th> Ldap Identifier </th><th>Group Name<th></tr>
+  <% @studies.each do | study | %>
+  <tr>
+     <td><%= study[:id]%></td>
+     <td><%= study[:ldap_id] %></td>
+     <td><%= study[:group_name] %><td>
+
+     <td><%= link_to "delete filière", study, :method => :delete%></td>
+     <td><%= show_user_link(study)%></td>
+     <td><%= destroy_users_link(study[:id]) %></td>
+     
+  </tr>
+<%end%>
+</tbody>
+</table>
+<% end %>

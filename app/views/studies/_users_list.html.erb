@@ -1,4 +1,13 @@
-<h2>Show user LDAP</h2>
+<%if defined? @result %>
+<% if defined? params[:ldap_id] %>
+<table>
+<tr>
+  <td><%= add_users_link(params[:ldap_id])%></td>
+  <td><%= destroy_users_link(params[:ldap_id])%></td>
+</tr>
+</table>
+<%end%>
+
 <% if @result.any? %>
 
 <table class="list">
@@ -11,7 +20,7 @@
   </tr></thead>
 
   <tbody>
-    
+
     <% @result.each do |student| %>
     <%= logger.info "#{student["aua"]}" %>
 
@@ -27,6 +36,4 @@
     <%else%>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<%= puts "Nombre d'étudiants #{@result.size}" %>
-  <% logger.info " Result #{@result.size}" %>
+<%end%>

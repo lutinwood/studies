@@ -1,8 +1,5 @@
-<h2>Studies</h2>
-
-<p>
-<%= link_to(l(:label_studies_new), new_study_path) %>
-</p>
-
-<%= render "result" %>
-<%=render "new" %>
+<h2>Studies Plugins</h2>
+    <p>  <%= index_link %></p>
+<%= render :partial => "studies_list" %>
+<%= render :partial => "new_study" %>
+<%= render :partial => "users_list" %>
