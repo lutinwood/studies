@@ -2,17 +2,23 @@
 <% if defined? @studies %>
 <table>
   <tbody>
-  <tr><th>ID</th><th> Ldap Identifier </th><th>Group Name<th></tr>
+  <tr>
+    <th>ID</th><th> Ldap Identifier </th><th>Group Name<th><th>Etudiants</th>
+  </tr>
   <% @studies.each do | study | %>
   <tr>
      <td><%= study[:id]%></td>
      <td><%= study[:ldap_id] %></td>
      <td><%= study[:group_name] %><td>
+     <td><%= Group.find_by_lastname(study[:group_name]).users.size %></td>
 
-     <td><%= link_to "delete filière", study, :method => :delete%></td>
+     <td><%= link_to "delete", study, :confirm => "ARE", :method => :delete%></td>
+     <td><%= delete_study(study[:id])%></td>
+
+     <td><%= add_users_link(study[:id])%></td>
      <td><%= show_user_link(study)%></td>
      <td><%= destroy_users_link(study[:id]) %></td>
-     
+
   </tr>
 <%end%>
 </tbody>

@@ -5,13 +5,18 @@ module StudiesHelper
     link_to "back to index", url
   end
 
-  def show_user_link(study)
-    url = {:controller => 'studies', :action => 'show',:ldap_id => study[:ldap_id]}
+  def delete_study(study)
+    url = {:controller => 'studies', :action => "remove", :id => study}
+    link_to "DELETE", url
+  end
+
+  def show_user_link(ldap_id)
+    url = {:id => ldap_id, :action => 'show_user_list',}
     link_to "list user local", url, :method => :post
   end
 
   def add_users_link(ldap_id)
-    url = {:controller => 'studies', :action => 'add_users_to_group', :ldap_id => ldap_id }
+    url = {:id => ldap_id, :action => 'add_users_to_group'}
     link_to "add users", url, :method => :post
   end
 

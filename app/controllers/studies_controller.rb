@@ -23,19 +23,28 @@ class StudiesController < ApplicationController
         render :index
   end
 
-  # @caption  le nom d'une filière utilisé par la template
   def show
-    user_list
-    group_name = Study.find(:all,:conditions=>["ldap_id = ?", params[:ldap_id]]).first.group_name
-    @caption = group_name
+    @studies = Study.find(:all)
+    render :index
+  end
 
+  # @caption  le nom d'une filière utilisé par la template
+  def show_user_list
+    #logger.info "from user show"
+    user_list
+    group_name = Study.find(params[:id]).group_name
+    @caption = group_name
+    logger.info "CAPTION \n#{@caption} RESULT \n #{@result}"
+    @studies = Study.find(:all)
     render :index
   end
 
   # @result contient la liste de ses utilisateurs
   def user_list
     ldap = LdapController.new
-    @result = ldap.search(params[:ldap_id])
+
+    @result = ldap.search(Study.find(params[:id]).ldap_id)
+    #logger.info "from user #{Study.find(params[:id]).ldap_id} list #{@result} gt"
   end
 
   # Informe la variable @studies qui contient toute les filières déclarées
@@ -55,18 +64,6 @@ class StudiesController < ApplicationController
     study.destroy
 
     render :index
-  end
-
-  # Retourne l'id d'un groupe correspondant à une filière
-  # depuis une jointure interne
-  def get_group_id(ldap_id)
-    # get the id by inner join
-    id = Group.find_by_sql("\
-    SELECT users.id \
-    FROM studies INNER JOIN users \
-    ON studies.group_name = users.lastname \
-    WHERE studies.ldap_id = '" + ldap_id + "'")
-    return id
   end
 
   # Renvoie un Objet Utilisateur
@@ -94,20 +91,18 @@ class StudiesController < ApplicationController
   # Ajoute les étudiants d'une filière comme utilisateurs du groupe
   # correspondant
   def add_users_to_group
-    logger.info "FROM add_users "
-    ldap_id = params[:ldap_id]
-    # ldap identifier of the group ex:SLPIN1 => Licence Pro
-    group_id = get_group_id(ldap_id)
 
+    study = Study.find(params[:id])
+    ldap_id = study.id
+    # ldap identifier of the group ex:SLPIN1 => Licence Pro
+    group_id = Group.find_by_lastname(study.group_name).id
     # Initialise la @result
     user_list
-
     # @result contient la List d'utilisateur appartenant a une filière
     if defined? @result
-      logger.info "result is defined "
+      logger.info "result is defined þð #{@result}"
       # enumeration du contenu de l'agenda utilisateur
       @result.each do |student|
-        logger.info "student"
           # Si l'utilisateur n' est pas déjà enregistré
           if !User.find_by_login(student["uid"])
             user = define_user(student,group_id)
@@ -117,14 +112,12 @@ class StudiesController < ApplicationController
             else
               logger.info "USER INFO FRom ldapC..#add_user#{user.errors.full_messages}"
             end # Utilisateur valide ?
-            logger.info " new user"
           end # Création d'un nouvel utilisateur
-          logger.info "already user"
           user = User.find_by_login(student["uid"])
           group = Group.find_by_id(group_id)
-          logger.info "User : #{user} Group : #{group}"
-          group.users << user
-          logger.info "TEST U #{user} TEST G #{group}"
+          if !group.users.include?(user)
+            group.users << user
+          end
         end # end each
         # Ajoute l'utilisateur à un groupe
 
@@ -133,25 +126,27 @@ class StudiesController < ApplicationController
     redirect_to "/studies"
   end
 
-  def count_user_in_group
-  end
-
   def destroy_users
-    group_id = params[:id]
+    param_id = params[:id]
+    logger.info "param_id #{param_id}"
+    study = Study.find(param_id)
+    logger.info " study #{study[:group_name]}"
+    group_id = Group.find_by_lastname(study[:group_name])[:id]
     logger.info "GRoup_id #{group_id}"
-    users_to_delete = User.find_by_sql(\
-    "SELECT user_id FROM groups_users WHERE group_id ="+ group_id + " ")
-    logger.info "USERS #{users_to_delete.inspect}"
-    users_to_delete.each do |user|
+    group  = Group.find(group_id)
+      group.users.each do |user|
+        logger.info " USER #{user.inspect}"
         logger.info " will be delete #{user[:lastname]}"
         user.destroy
-    end
+      end
+
     logger.info "from destroy user"
-    render :index
+    redirect_to "/studies/"
   end
 
-  def delete
-      study = Study.find_by_id(:params[:id])
+  def remove
+    logger.info "From delete method #{params[:id]}"
+      study = Study.find_by_id(params[:id])
       study.destroy
       redirect_to "/studies/"
   end

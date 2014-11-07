@@ -1,9 +1,11 @@
+
 <%if defined? @result %>
-<% if defined? params[:ldap_id] %>
+
+<% if defined? params[:id] %>
 <table>
 <tr>
-  <td><%= add_users_link(params[:ldap_id])%></td>
-  <td><%= destroy_users_link(params[:ldap_id])%></td>
+  <td><%= add_users_link(params[:id])%></td>
+  <td><%= destroy_users_link(params[:id])%></td>
 </tr>
 </table>
 <%end%>
@@ -11,7 +13,8 @@
 <% if @result.any? %>
 
 <table class="list">
-  <caption><b>GROUPE : </b><%= " " + @caption + ""%> </caption> <caption><%="Nombre d'étudiants " + @result.size.to_s %></caption>
+  <caption><b>GROUPE : </b><%= " " + @caption + ""%> </caption>
+  <caption><%="Nombre d'étudiants " + @result.size.to_s %></caption>
     <thead><tr>
   <th><%='uid'%></th>
   <th><%='displayname'%></th>
