@@ -12,7 +12,6 @@
      <td><%= study[:group_name] %><td>
      <td><%= Group.find_by_lastname(study[:group_name]).users.size %></td>
 
-     <td><%= link_to "delete", study, :confirm => "ARE", :method => :delete%></td>
      <td><%= delete_study(study[:id])%></td>
 
      <td><%= add_users_link(study[:id])%></td>
