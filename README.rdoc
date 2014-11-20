@@ -1,3 +1,14 @@
 = studies
 
 Description goes here
+
+
+Note de version:
+*---------------*
+0.0.1 --- > 0.0.2
+
+- Absorbtion du plugin clruniv par le plugin studies
+fichier absorbés:
+init.rb
+app/controllers/sso_controller.rb
+
