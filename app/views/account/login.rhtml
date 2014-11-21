@@ -68,30 +68,3 @@
 </tr>
 </table>
 </center>          
-<!--Autologin Option -->
-                  <% if Setting.autologin? %>
-                        <%= check_box_tag 'autologin' %> <%= l(:label_stay_logged_in) %>
-                  <% end %>
-		<br />
-                  <button type="submit" name="login"><%=l(:button_login) %></button>
-
-           <!-- End Form TAG -->
-		<%= javascript_tag "Form.Element.focus('username');" %>
-          <% end %>
-                <!-- register & lost password link -->
-</td></tr>
-<tr><td>
-<% if Setting.lost_password? %>
-      <%= link_to l(:label_password_lost), 
-		:controller => 'account', 
-		:action => 'lost_password' %>
-<% end %>
-</td><td>
-      <%= link_to l(:rac_register), 
-		:controller => 'account', 
-		:action => 'register' %>
-</td>
-</tr>
-</table>
-</center>
-</center>          
