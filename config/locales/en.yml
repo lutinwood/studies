@@ -1,6 +1,7 @@
 # English strings go here
 en:
   clruniv_userid_exists: "An user with the login '%s' is already registered"
+  univ_user: "Members of the University of Angers"
   clruniv_auth: "%s member"
   clruniv_local_auth: "Guest member"
   clruniv_register: "Create a guest account"

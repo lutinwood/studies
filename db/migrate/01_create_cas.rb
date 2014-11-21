@@ -7,16 +7,10 @@ class CreateCas < ActiveRecord::Migration
       t.column "ldap", :string, :limit => 60
       t.column "dn", :string, :limit => 255
     end
-    add_column :users, :cas_id, :integer
-    add_column :users, :supann_affectation_first, :string, :limit => 20
-    add_column :users, :supann_affectation_last, :string, :limit => 20
-    add_column :users, :aua_statut, :string , :limit => 10
-    add_column :users, :aua_millesime, :string, :limit => 60
   end
 
   def self.down
     drop_table :cas
-    remove_columns :users, :cas_id
   end
 
 end

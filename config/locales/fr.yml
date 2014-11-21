@@ -2,6 +2,7 @@
 fr:
   clruniv_userid_exists: "Un utilisateur est déjà enregistré avec l'identifiant '%s'"
   clruniv_auth: "Membre %s"
+  univ_user: "Membre de l'Université d'Angers"
   clruniv_local_auth: "Membre extérieur"
   clruniv_register: "Créer un compte invité"
   clruniv_repository_not_created: "Le dépot n'est pas encore disponible. Il sera bientôt crée automatiquement."
