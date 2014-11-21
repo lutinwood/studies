@@ -12,3 +12,7 @@ fichier absorbés:
 init.rb
 app/controllers/sso_controller.rb
 
+
+Suppression du plugin 
+
+rake db:migrate:plugin NAME=redmine_studies VERSION=0 RAILS=production
