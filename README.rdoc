@@ -5,6 +5,16 @@ Description goes here
 
 Note de version:
 *---------------*
+0.0.2 ---> 0.2.0 
+
+- Modification du plugin pour une compatibilité 
+avec les versions:
+	redmine 2.4.2-1 
+	ruby 1.9.3p551 (2014-11-13 revision 48407) [x86_64-linux]
+	rails (3.2.21)
+	rvm 1.26.3 
+	
+----------------------------------------------------------
 0.0.1 --- > 0.0.2
 
 - Absorbtion du plugin clruniv par le plugin studies
